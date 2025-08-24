@@ -25,7 +25,10 @@ def recognize(uiResource, confidence, timeout, waitTime):
 def multipleConfidence(uiResource, timeout, waitTime):
     confLevels = [x / 100 for x in range(100, 80 - 1, -5)]
     with ThreadPoolExecutor(max_workers=len(confLevels)) as executor:
-        workers = [(lvl, executor.submit(recognize, uiResource, lvl, timeout, waitTime)) for lvl in confLevels]
+        workers = [
+            (lvl, executor.submit(recognize, uiResource, lvl, timeout, waitTime))
+            for lvl in confLevels
+        ]
         result_list = [(worker[0], worker[1].result()) for worker in workers]
         print(max(result_list)[1])
 
