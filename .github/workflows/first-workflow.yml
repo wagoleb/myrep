@@ -10,6 +10,7 @@ jobs:
         run: echo "Bye"
   second-job:
     runs-on: ubuntu-latest
+    steps:
       - name: Print Hello 2
         run: echo "Hello 2"
       - name: Print Bye 2
