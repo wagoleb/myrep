@@ -8,3 +8,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: python -V
       - run: python -m pip install black
+      - run: black .
