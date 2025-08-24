@@ -2,8 +2,8 @@ name: black-action
 on: [push, pull_request]
 jobs:
   linter_name:
-    name: runner / black formatter
+    name: checkout
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: black .
+      - run: python -m install black
