@@ -6,17 +6,17 @@ from queue import Queue
 
 def recognize(uiResource, confidence, timeout, waitTime):
     result = None
-    print(f'Looking for: {uiResource}')
+    print(f"Looking for: {uiResource}")
     start = perf_counter()
-    while perf_counter()-start < timeout:
-        print(f'Looking with confidence lvl: {confidence}')
+    while perf_counter() - start < timeout:
+        print(f"Looking with confidence lvl: {confidence}")
         result = pyautogui.locateOnScreen(uiResource, confidence)
         if result:
-            print(f'Found image {uiResource} in {result}')
+            print(f"Found image {uiResource} in {result}")
             break
         sleep(waitTime)
     else:
-        print('Timeout')
+        print("Timeout")
         return result
     return result
 
@@ -27,7 +27,15 @@ def recognize(uiResource, confidence, timeout, waitTime):
 
 def locateByThread(imagesList, confidence, timeout, waitTime):
     que = Queue()
-    threads = [threading.Thread(target=lambda q, img, conf, time, wait: q.put(recognize(img, conf, time, wait)), args=(que, image, confidence, timeout, waitTime)) for image in imagesList]
+    threads = [
+        threading.Thread(
+            target=lambda q, img, conf, time, wait: q.put(
+                recognize(img, conf, time, wait)
+            ),
+            args=(que, image, confidence, timeout, waitTime),
+        )
+        for image in imagesList
+    ]
     for thread in threads:
         thread.daemon = True
         thread.start()
@@ -35,8 +43,10 @@ def locateByThread(imagesList, confidence, timeout, waitTime):
 
 
 start = perf_counter()
-wynik = locateByThread(['notfound.png', 'icon2.png', 'icon3.png', 'icon1.png'], 0.9, 10, 1)
-print(perf_counter()- start)
+wynik = locateByThread(
+    ["notfound.png", "icon2.png", "icon3.png", "icon1.png"], 0.9, 10, 1
+)
+print(perf_counter() - start)
 if wynik:
     print(wynik)
     pyautogui.moveTo(wynik[0], wynik[1])
