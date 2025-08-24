@@ -15,3 +15,8 @@ jobs:
         run: echo "Hello 2"
       - name: Print Bye 2
         run: echo "Bye 2"
+  third-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Release
+        run: cat /etc/*-release
